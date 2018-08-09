@@ -1,0 +1,42 @@
+#
+# Simple database and stream protocol file for Keysight 53220A Frequency Counter
+#
+
+record(stringin, "$(P)$(R)IDN")
+{
+    field(DESC, "SCPI identification string")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto getIDN(39) $(PORT) $(A)")
+    field(PINI, "YES")
+}
+
+record(ai, "$(P)$(R)LAST")
+{
+    field(DESC, "SCPI measure frequency")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto getLAST() $(PORT) $(A)")
+    field(SCAN, "1 second")
+}
+
+record(bo, "$(P)$(R)START")
+{
+    field(DESC, "SCPI measure frequency")
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto start() $(PORT) $(A)")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P)$(R)RST")
+{
+    field(DESC, "SCPI Reset")
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto cmd(*RST) $(PORT) $(A)")
+}
+
+record(bo, "$(P)$(R)CLS")
+{
+    field(DESC, "SCPI Clear status")
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto cmd(*CLS) $(PORT) $(A)")
+}
+
