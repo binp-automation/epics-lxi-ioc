@@ -7,9 +7,8 @@ epicsEnvSet "STREAM_PROTOCOL_PATH" "$(TOP)/db"
 
 ###############################################################################
 # Allow PV name prefixes and serial port name to be set from the environment
-epicsEnvSet "P" "$(P=FC)" 
-epicsEnvSet "R" "$(R=Test)" 
-epicsEnvSet "TTY" "$(TTY=10.0.0.11:5025)" 
+epicsEnvSet "P" "$(P=TEST)"
+epicsEnvSet "R" "$(R=FC)"
 
 ###############################################################################
 ## Register all support components

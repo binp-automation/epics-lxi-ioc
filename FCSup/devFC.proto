@@ -30,13 +30,6 @@ getIDN {
     ReplyTimeout = 10000;
 }
 
-getLAST {
-    out "DATA:LAST?";
-    in "%f";
-    ExtraInput = Ignore;
-    ReplyTimeout = 10000;
-}
-
 start {
     out "*RST\nCONF:FREQ\nTRIG:SOUR IMM\nTRIG:COUN MAX\nSAMP:COUN MAX\nFREQ:GATE:TIME 1.0\nINIT";
 }
