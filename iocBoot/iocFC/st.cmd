@@ -18,9 +18,10 @@ FC_registerRecordDeviceDriver pdbbase
 
 ###############################################################################
 # Set up ASYN ports
-drvAsynIPPortConfigure("L0","10.0.0.11:5025",0,0,0)
-asynOctetSetInputEos("L0", -1, "\n") 
-asynOctetSetOutputEos("L0", -1, "\n") 
+#drvAsynIPPortConfigure("L0","10.0.0.12:5025",0,0,0) 
+vxi11Configure("L0","10.0.0.12",0,0.0,"inst0",0,0) 
+#asynOctetSetInputEos("L0", -1, "\n") 
+#asynOctetSetOutputEos("L0", -1, "\n") 
 asynSetTraceIOMask("L0",-1,0x2) 
 asynSetTraceMask("L0",-1,0x9) 
 

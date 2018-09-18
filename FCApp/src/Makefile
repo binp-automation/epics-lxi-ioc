@@ -42,6 +42,6 @@ include $(TOP)/configure/RULES
 
 FC_DBD += stream.dbd
 FC_DBD += asyn.dbd
-FC_DBD += drvAsynIPPort.dbd 
+FC_DBD += drvVxi11.dbd 
 FC_LIBS += stream asyn 
 

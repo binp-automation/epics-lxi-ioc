@@ -31,5 +31,15 @@ getIDN {
 }
 
 start {
-    out "*RST\nCONF:FREQ\nTRIG:SOUR IMM\nTRIG:COUN MAX\nSAMP:COUN MAX\nFREQ:GATE:TIME 1.0\nINIT";
+    out "*RST\n:CHAN1:SCAL 1 V\n:CHAN1:OFFS 0 V\n:TIM:SCAL 100E-9\n:TIM:POS 0\n:TRIG:SWE NORM\n:TRIG:SOUR EXT\n*SRE 1\n:TER?";
+    in "%\$1[^\r\n]";
+    ExtraInput = Ignore;
+    ReplyTimeout = 10000;
+}
+
+ter {
+    out ":TER?";
+    event 5000;
+    in "%\$1[^\r\n]";
+    ExtraInput = Ignore;
 }
