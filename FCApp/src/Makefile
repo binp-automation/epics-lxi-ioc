@@ -16,13 +16,13 @@ DBD += FC.dbd
 FC_DBD += base.dbd
 
 # Include dbd files from all support applications:
-#FC_DBD += xxx.dbd
+FC_DBD += asyn.dbd stream.dbd drvVxi11.dbd
 
 # Add all the support libraries needed by this IOC
-#FC_LIBS += xxx
+FC_LIBS += stream asyn
 
 # FC_registerRecordDeviceDriver.cpp derives from FC.dbd
-FC_SRCS += FC_registerRecordDeviceDriver.cpp
+FC_SRCS += FC_registerRecordDeviceDriver.cpp testAsynPortDriver.cpp
 
 # Build the main IOC entry point on workstation OSs.
 FC_SRCS_DEFAULT += FCMain.cpp
@@ -40,8 +40,4 @@ include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
 
-FC_DBD += stream.dbd
-FC_DBD += asyn.dbd
-FC_DBD += drvVxi11.dbd 
-FC_LIBS += stream asyn 
 
