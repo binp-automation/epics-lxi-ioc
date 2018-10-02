@@ -23,7 +23,6 @@ record(stringin, "$(P):$(R):TER")
     field(DESC, "SCPI Reset")
     field(DTYP, "stream")
     field(INP,  "@devFC.proto ter() $(PORT) $(A)")
-    field(PINI, "YES")
 }
 
 record(bo, "$(P):$(R):RST")

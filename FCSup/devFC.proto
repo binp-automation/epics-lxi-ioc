@@ -39,7 +39,7 @@ start {
 
 ter {
     out ":TER?";
-    event 20000;
+    #event 20000;
     in "%\$1[^\r\n]";
     ExtraInput = Ignore;
 }

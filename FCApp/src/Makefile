@@ -16,7 +16,7 @@ DBD += FC.dbd
 FC_DBD += base.dbd
 
 # Include dbd files from all support applications:
-FC_DBD += asyn.dbd stream.dbd drvVxi11.dbd
+FC_DBD += asyn.dbd stream.dbd drvAsynIPPort.dbd drvVxi11.dbd
 
 # Add all the support libraries needed by this IOC
 FC_LIBS += stream asyn
