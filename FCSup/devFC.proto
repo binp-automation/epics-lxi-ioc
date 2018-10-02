@@ -31,10 +31,8 @@ getIDN {
 }
 
 start {
-    out "*RST\n:CHAN1:SCAL 1 V\n:CHAN1:OFFS 0 V\n:TIM:SCAL 100E-9\n:TIM:POS 0\n:TRIG:SWE NORM\n:TRIG:SOUR EXT\n*SRE 1\n:TER?";
-    in "%\$1[^\r\n]";
-    ExtraInput = Ignore;
-    ReplyTimeout = 10000;
+    #out "*RST\n:CHAN1:SCAL 1 V\n:CHAN1:OFFS 0 V\n:TIM:SCAL 100E-9\n:TIM:POS 0\n:TRIG:SWE NORM\n:TRIG:SOUR EXT\n*SRE 1\n:TER?";
+    out ":WAV:FORM WORD\n:WAV:POIN 1000";
 }
 
 ter {
@@ -42,4 +40,18 @@ ter {
     #event 20000;
     in "%\$1[^\r\n]";
     ExtraInput = Ignore;
+}
+
+wavestr {
+    out ":WAV:DATA?";
+    in "%\$1[^\r\n]";
+    ExtraInput = Ignore;
+}
+
+wave {
+    out ":WAV:DATA?";
+    separator = "";
+    in "#8\?\?\?\?\?\?\?\?%02r";
+    ExtraInput = Ignore;
+    ReplyTimeout = 10000;
 }

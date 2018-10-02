@@ -22,7 +22,7 @@ FC_DBD += asyn.dbd stream.dbd drvAsynIPPort.dbd drvVxi11.dbd
 FC_LIBS += stream asyn
 
 # FC_registerRecordDeviceDriver.cpp derives from FC.dbd
-FC_SRCS += FC_registerRecordDeviceDriver.cpp testAsynPortDriver.cpp
+FC_SRCS += FC_registerRecordDeviceDriver.cpp
 
 # Build the main IOC entry point on workstation OSs.
 FC_SRCS_DEFAULT += FCMain.cpp

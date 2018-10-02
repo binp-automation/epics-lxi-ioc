@@ -27,8 +27,7 @@ asynSetTraceMask("L0",-1,0x9)
 
 ###############################################################################
 ## Load record instances
-#dbLoadRecords("db/devFC.db","P=$(P),R=$(R),PORT=L0,A=0")
-dbLoadRecords("db/testAsynPortDriver.db","P=$(P),R=$(R),PORT=L0,ADDR=0,TIMEOUT=1")
+dbLoadRecords("db/devFC.db","P=$(P),R=$(R),PORT=L0,A=0")
 
 ############################################################################### 
 ## Start EPICS

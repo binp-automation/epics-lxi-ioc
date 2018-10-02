@@ -32,9 +32,20 @@ record(bo, "$(P):$(R):RST")
     field(OUT,  "@devFC.proto cmd(*RST) $(PORT) $(A)")
 }
 
-record(bo, "$(P):$(R):CLS")
+record(stringin, "$(P):$(R):WAVESTR")
 {
-    field(DESC, "SCPI Clear status")
+    field(DESC, "SCPI waveform")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto cmd(*CLS) $(PORT) $(A)")
+    field(INP,  "@devFC.proto wavestr() $(PORT) $(A)")
+}
+
+record(waveform, "$(P):$(R):WAVE")
+{
+    field(DESC, "SCPI waveform")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wave() $(PORT) $(A)")
+    field(NELM, "1000")
+    field(FTVL, "DOUBLE")
+    field(PINI, "YES")
+    field(SCAN, "5 second")
 }
