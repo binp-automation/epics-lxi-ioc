@@ -54,10 +54,10 @@ testAsynPortDriver::testAsynPortDriver(const char *portName)
 
     printf("[+] Init\n");
 
-    createParam(P_XString, asynParamOctet, &P_X);
+    createParam(P_XString, asynParamInt32, &P_X);
     
     /* Set the initial values of some parameters */
-    setIntegerParam(P_X, 0);
+    setIntegerParam(P_X, 42);
     
     /* Create the thread that computes the waveforms in the background */
     status = (asynStatus)(epicsThreadCreate("testAsynPortDriverTask",
@@ -95,7 +95,6 @@ void testAsynPortDriver::simTask(void)
   * For all parameters it sets the value in the parameter library and calls any registered callbacks..
   * \param[in] pasynUser pasynUser structure that encodes the reason and address.
   * \param[in] value Value to write. */
-/*
 asynStatus testAsynPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
     int function = pasynUser->reason;
@@ -165,8 +164,8 @@ asynStatus testAsynPortDriver::readInt32(asynUser *pasynUser, epicsInt32 *value)
               driverName, functionName, function, paramName, *value);
     return status;
 }
-*/
 
+/*
 asynStatus testAsynPortDriver::readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason)
 {
     printf("readOctet\n");
@@ -177,6 +176,7 @@ asynStatus testAsynPortDriver::writeOctet(asynUser *pasynUser, const char *value
     printf("writeOctet\n");
     return (asynStatus) callParamCallbacks();
 }
+*/
 
 
 /* Configuration routine.  Called directly, or from the iocsh function below */

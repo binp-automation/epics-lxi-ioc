@@ -1,13 +1,5 @@
-record(stringin, "$(P):$(R):XI")
+record(longout, "$(P):$(R):X")
 {
-    field(DTYP, "asynOctet")
-    field(AINP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))X")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))X")
 }
-
-record(stringout, "$(P):$(R):XO")
-{
-    field(DTYP, "asynOctet")
-    field(AOUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))X")
-    field(PINI, "YES")
-}
-

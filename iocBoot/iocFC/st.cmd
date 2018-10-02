@@ -22,8 +22,8 @@ drvAsynIPPortConfigure("L0","10.0.0.12:5025",0,0,0)
 #vxi11Configure("L0","10.0.0.12",0,0.0,"inst0",0,0) 
 asynOctetSetInputEos("L0", -1, "\n") 
 asynOctetSetOutputEos("L0", -1, "\n") 
-asynSetTraceIOMask("L0",-1,0x2) 
-asynSetTraceMask("L0",-1,0x9) 
+#asynSetTraceIOMask("L0",-1,0x2) 
+#asynSetTraceMask("L0",-1,0x9) 
 
 ###############################################################################
 ## Load record instances

@@ -17,7 +17,7 @@
 
 /* These are the drvInfo strings that are used to identify the parameters.
  * They are used by asyn clients, including standard asyn device support */
-#define P_XString "X" /* asynOctet, r/w */
+#define P_XString "X" /* asynInt32, r/w */
 
 /** Class that demonstrates the use of the asynPortDriver base class to greatly simplify the task
   * of writing an asyn port driver.
@@ -30,10 +30,10 @@ public:
     testAsynPortDriver(const char *portName);
                  
     /* These are the methods that we override from asynPortDriver */
-    //virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
-    //virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-    virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
-    virtual asynStatus writeOctet(asynUser *pasynUser, const char *value, size_t maxChars, size_t *nActual);
+    virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
+    virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+    //virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
+    //virtual asynStatus writeOctet(asynUser *pasynUser, const char *value, size_t maxChars, size_t *nActual);
 
     /* These are the methods that are new to this class */
     void simTask(void);
