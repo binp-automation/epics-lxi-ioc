@@ -2,56 +2,42 @@ cmd {
     out "\$1";
 }
 
-setD {
-    out "\$1 %d";
-}
-getD {
-    out "\$1?";
-    in "%d";
-    ExtraInput = Ignore;
-    ReplyTimeout = 10000;
-}
-
-setF {
-    out "\$1 %f";
-}
-
-getF {
-    out "\$1?";
-    in "%f";
-    ExtraInput = Ignore;
-    ReplyTimeout = 10000;
-}
-
 getIDN {
     out "*IDN?";
-    in "%\$1[^\r\n]";
+    in "%[^\r\n]";
     ExtraInput = Ignore;
     ReplyTimeout = 10000;
 }
 
-start {
-    #out "*RST\n:CHAN1:SCAL 1 V\n:CHAN1:OFFS 0 V\n:TIM:SCAL 100E-9\n:TIM:POS 0\n:TRIG:SWE NORM\n:TRIG:SOUR EXT\n*SRE 1\n:TER?";
-    out ":WAV:FORM WORD\n:WAV:POIN 1000";
+setup {
+    out "*RST\n:CHAN1:SCAL 1 V\n:CHAN1:OFFS 0 V\n:TIM:SCAL 100E-9\n:TIM:POS 0\n:TRIG:SWE NORM\n:TRIG:SOUR CHAN1\n:WAV:FORM WORD\n:WAV:POIN 1000";
 }
 
-ter {
-    out ":TER?";
-    #event 20000;
-    in "%\$1[^\r\n]";
-    ExtraInput = Ignore;
+wavpre_out {
+    out ":WAV:PRE?";
 }
 
-wavestr {
-    out ":WAV:DATA?";
-    in "%\$1[^\r\n]";
-    ExtraInput = Ignore;
+xinc_in {
+    in "%*f,%*f,%*f,%*f,%f,%*f,%*f,%*f,%*f,%*f";
 }
 
-wave {
+xorig_in {
+    in "%*f,%*f,%*f,%*f,%*f,%f,%*f,%*f,%*f,%*f";
+}
+
+yinc_in {
+    in "%*f,%*f,%*f,%*f,%*f,%*f,%*f,%f,%*f,%*f";
+}
+
+yorig_in {
+    in "%*f,%*f,%*f,%*f,%*f,%*f,%*f,%*f,%f,%*f";
+}
+
+wavdata {
     out ":WAV:DATA?";
     separator = "";
-    in "#8\?\?\?\?\?\?\?\?%02r";
+    in "#8%*8[0-9]%02r";
     ExtraInput = Ignore;
     ReplyTimeout = 10000;
+    ReadTimeout = 10000;
 }

@@ -4,48 +4,112 @@
 
 record(stringin, "$(P):$(R):IDN")
 {
-    field(DESC, "SCPI identification string")
+    field(DESC, "identification string")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto getIDN(39) $(PORT) $(A)")
-    field(PINI, "YES")
-}
-
-record(stringin, "$(P):$(R):START")
-{
-    field(DESC, "SCPI measure frequency")
-    field(DTYP, "stream")
-    field(INP,  "@devFC.proto start() $(PORT) $(A)")
-    field(PINI, "YES")
-}
-
-record(stringin, "$(P):$(R):TER")
-{
-    field(DESC, "SCPI Reset")
-    field(DTYP, "stream")
-    field(INP,  "@devFC.proto ter() $(PORT) $(A)")
+    field(INP,  "@devFC.proto getIDN() $(PORT) $(A)")
 }
 
 record(bo, "$(P):$(R):RST")
 {
-    field(DESC, "SCPI Reset")
+    field(DESC, "reset")
     field(DTYP, "stream")
     field(OUT,  "@devFC.proto cmd(*RST) $(PORT) $(A)")
 }
 
-record(stringin, "$(P):$(R):WAVESTR")
+record(bo, "$(P):$(R):CLS")
 {
-    field(DESC, "SCPI waveform")
+    field(DESC, "clear status")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavestr() $(PORT) $(A)")
+    field(OUT,  "@devFC.proto cmd(*CLS) $(PORT) $(A)")
 }
 
-record(waveform, "$(P):$(R):WAVE")
+record(seq, "$(P):$(R):STARTUP")
 {
-    field(DESC, "SCPI waveform")
+    field(DESC, "startup")
+    field(SELM, "All")
+    field(LNK1, "$(P):$(R):SETUP PP")
+    field(LNK2, "$(P):$(R):IDN PP")
+    field(LNK3, "$(P):$(R):RUN PP")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P):$(R):SETUP")
+{
+    field(DESC, "setup")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wave() $(PORT) $(A)")
+    field(OUT,  "@devFC.proto setup() $(PORT) $(A)")
+}
+
+record(seq, "$(P):$(R):RUN")
+{
+    field(SELM, "All")
+    field(LNK1, "$(P):$(R):DIG PP")
+    field(LNK2, "$(P):$(R):WAVPRE_OUT PP")
+}
+
+record(bo, "$(P):$(R):DIG")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto cmd(:DIG) $(PORT) $(A)")
+}
+
+record(bo, "$(P):$(R):WAVPRE_OUT")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto wavpre_out() $(PORT) $(A)")
+}
+
+record(ai, "$(P):$(R):XINC")
+{
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto xinc_in() $(PORT) $(A)")
+    field(SCAN, "I/O Intr")
+    field(FLNK, "$(P):$(R):WAV_UPDATE")
+}
+
+record(ai, "$(P):$(R):XORIG")
+{
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto xorig_in() $(PORT) $(A)")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P):$(R):YINC")
+{
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto yinc_in() $(PORT) $(A)")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P):$(R):YORIG")
+{
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto yorig_in() $(PORT) $(A)")
+    field(SCAN, "I/O Intr")
+}
+
+record(calcout,"$(P):$(R):WAV_UPDATE"){
+    field(INPA, "$(P):$(R):XINC")
+    field(CALC, "A")
+    field(OUT,  "$(P):$(R):READ_AND_CONTINUE PP")
+    field(OOPT, "Always")
+    field(DOPT, "Use CALC")
+    field(OEVT, "1")
+}
+
+record(seq, "$(P):$(R):READ_AND_CONTINUE")
+{
+    field(DESC, "read data and continue")
+    field(SELM, "All")
+    field(LNK1, "$(P):$(R):WAVDATA PP")
+    field(LNK2, "$(P):$(R):RUN PP")
+}
+
+record(waveform, "$(P):$(R):WAVDATA")
+{
+    field(DESC, "waveform data")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
     field(NELM, "1000")
     field(FTVL, "DOUBLE")
-    field(PINI, "YES")
-    field(SCAN, "5 second")
 }
