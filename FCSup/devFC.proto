@@ -9,8 +9,12 @@ getIDN {
     ReplyTimeout = 10000;
 }
 
-setup {
-    out "*RST\n:CHAN1:SCAL 1 V\n:CHAN1:OFFS 0 V\n:TIM:SCAL 100E-9\n:TIM:POS 0\n:TRIG:SWE NORM\n:TRIG:SOUR CHAN1\n:WAV:FORM WORD\n:WAV:POIN 1000";
+setup_chan {
+    out ":CHAN%d:DISP 1\n:CHAN%d:SCAL 1 V\n:CHAN%d:OFFS 0 V";
+}
+
+setup_other {
+    out ":TIM:SCAL 100E-9\n:TIM:POS 0\n:TRIG:SWE NORM\n:TRIG:SOUR EXT\n:WAV:FORM WORD\n:WAV:POIN 1000";
 }
 
 wavpre_out {
@@ -40,4 +44,16 @@ wavdata {
     ExtraInput = Ignore;
     ReplyTimeout = 10000;
     ReadTimeout = 10000;
+}
+
+wavsour {
+    out ":WAV:SOUR CHAN%d";
+}
+
+wavsour_out {
+    out ":WAV:SOUR?";
+}
+
+wavsour_in {
+    in "CHAN%d";
 }

@@ -1,5 +1,5 @@
 #
-# Simple database and stream protocol file for Keysight 53220A Frequency Counter
+# Simple database and stream protocol file for Keysight DSOX2024A Oscilloscope
 #
 
 record(stringin, "$(P):$(R):IDN")
@@ -33,18 +33,43 @@ record(seq, "$(P):$(R):STARTUP")
     field(PINI, "YES")
 }
 
-record(bo, "$(P):$(R):SETUP")
+record(seq, "$(P):$(R):SETUP")
+{
+    field(DESC, "startup")
+    field(SELM, "All")
+    field(LNK1, "$(P):$(R):RST PP")
+    field(LNK2, "$(P):$(R):SETUP_CHAN PP")
+    field(DO2, "1")
+    field(LNK3, "$(P):$(R):SETUP_CHAN PP")
+    field(DO3, "2")
+    field(LNK4, "$(P):$(R):SETUP_CHAN PP")
+    field(DO4, "3")
+    field(LNK5, "$(P):$(R):SETUP_CHAN PP")
+    field(DO5, "4")
+    field(LNK6, "$(P):$(R):SETUP_OTHER PP")
+}
+
+record(longout, "$(P):$(R):SETUP_CHAN")
 {
     field(DESC, "setup")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto setup() $(PORT) $(A)")
+    field(OUT,  "@devFC.proto setup_chan() $(PORT) $(A)")
+}
+
+record(bo, "$(P):$(R):SETUP_OTHER")
+{
+    field(DESC, "setup")
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto setup_other() $(PORT) $(A)")
 }
 
 record(seq, "$(P):$(R):RUN")
 {
     field(SELM, "All")
     field(LNK1, "$(P):$(R):DIG PP")
-    field(LNK2, "$(P):$(R):WAVPRE_OUT PP")
+    field(LNK2, "$(P):$(R):WAVSOUR PP")
+    field(LNK3, "$(P):$(R):WAVSOUR_OUT PP")
+    field(DO2, "1")
 }
 
 record(bo, "$(P):$(R):DIG")
@@ -53,18 +78,15 @@ record(bo, "$(P):$(R):DIG")
     field(OUT,  "@devFC.proto cmd(:DIG) $(PORT) $(A)")
 }
 
-record(bo, "$(P):$(R):WAVPRE_OUT")
-{
-    field(DTYP, "stream")
-    field(OUT,  "@devFC.proto wavpre_out() $(PORT) $(A)")
-}
+#
+# Read waveform parameters
+#
 
 record(ai, "$(P):$(R):XINC")
 {
     field(DTYP, "stream")
     field(INP,  "@devFC.proto xinc_in() $(PORT) $(A)")
     field(SCAN, "I/O Intr")
-    field(FLNK, "$(P):$(R):WAV_UPDATE")
 }
 
 record(ai, "$(P):$(R):XORIG")
@@ -88,28 +110,120 @@ record(ai, "$(P):$(R):YORIG")
     field(SCAN, "I/O Intr")
 }
 
-record(calcout,"$(P):$(R):WAV_UPDATE"){
-    field(INPA, "$(P):$(R):XINC")
-    field(CALC, "A")
-    field(OUT,  "$(P):$(R):READ_AND_CONTINUE PP")
-    field(OOPT, "Always")
-    field(DOPT, "Use CALC")
-    field(OEVT, "1")
-}
+#
+# Read waveforms
+#
 
-record(seq, "$(P):$(R):READ_AND_CONTINUE")
-{
-    field(DESC, "read data and continue")
-    field(SELM, "All")
-    field(LNK1, "$(P):$(R):WAVDATA PP")
-    field(LNK2, "$(P):$(R):RUN PP")
-}
-
-record(waveform, "$(P):$(R):WAVDATA")
+record(waveform, "$(P):$(R):WAVDATA:1")
 {
     field(DESC, "waveform data")
     field(DTYP, "stream")
     field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
     field(NELM, "1000")
     field(FTVL, "DOUBLE")
+}
+
+record(waveform, "$(P):$(R):WAVDATA:2")
+{
+    field(DESC, "waveform data")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(NELM, "1000")
+    field(FTVL, "DOUBLE")
+}
+
+record(waveform, "$(P):$(R):WAVDATA:3")
+{
+    field(DESC, "waveform data")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(NELM, "1000")
+    field(FTVL, "DOUBLE")
+}
+
+record(waveform, "$(P):$(R):WAVDATA:4")
+{
+    field(DESC, "waveform data")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(NELM, "1000")
+    field(FTVL, "DOUBLE")
+}
+
+#
+# Set/get waveform source
+#
+
+record(longout, "$(P):$(R):WAVSOUR")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto wavsour() $(PORT) $(A)")
+}
+
+record(longout, "$(P):$(R):WAVSOUR_OUT")
+{
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto wavsour_out() $(PORT) $(A)")
+}
+
+record(longin, "$(P):$(R):WAVSOUR_IN")
+{
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavsour_in() $(PORT) $(A)")
+    field(SCAN, "I/O Intr")
+    field(FLNK, "$(P):$(R):READY")
+}
+
+#
+# Get data from all channels
+#
+
+record(calcout, "$(P):$(R):READY")
+{
+    field(INPA, "$(P):$(R):WAVSOUR_IN")
+    field(CALC, "A = 1")
+    field(OUT,  "$(P):$(R):FETCH:1 PP")
+    field(OOPT, "Always")
+    field(DOPT, "Use CALC")
+    field(OEVT, "1")
+}
+
+record(seq, "$(P):$(R):FETCH:1")
+{
+    field(DESC, "read data and continue")
+    field(SELM, "All")
+    field(LNK1, "$(P):$(R):WAVSOUR PP")
+    field(DO1, "1")
+    field(LNK2, "$(P):$(R):WAVDATA:1 PP")
+    field(LNK3, "$(P):$(R):FETCH:2 PP")
+}
+
+record(seq, "$(P):$(R):FETCH:2")
+{
+    field(DESC, "read data and continue")
+    field(SELM, "All")
+    field(LNK1, "$(P):$(R):WAVSOUR PP")
+    field(DO1, "2")
+    field(LNK2, "$(P):$(R):WAVDATA:2 PP")
+    field(LNK3, "$(P):$(R):FETCH:3 PP")
+}
+
+record(seq, "$(P):$(R):FETCH:3")
+{
+    field(DESC, "read data and continue")
+    field(SELM, "All")
+    field(LNK1, "$(P):$(R):WAVSOUR PP")
+    field(DO1, "3")
+    field(LNK2, "$(P):$(R):WAVDATA:3 PP")
+    field(LNK3, "$(P):$(R):FETCH:4 PP")
+}
+
+record(seq, "$(P):$(R):FETCH:4")
+{
+    field(DESC, "read data and continue")
+    field(SELM, "All")
+    field(LNK1, "$(P):$(R):WAVSOUR PP")
+    field(DO1, "4")
+    field(LNK1, "$(P):$(R):WAVDATA:4 PP")
+    field(LNK2, "$(P):$(R):RUN PP")
 }
