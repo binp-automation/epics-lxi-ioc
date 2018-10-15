@@ -10,15 +10,20 @@ getIDN {
 }
 
 setup_chan {
-    out ":CHAN\$1:DISP 1\n:CHAN\$1:SCAL 1 V\n:CHAN\$1:OFFS 0 V";
+    out ":CHAN\$1:DISP 1\n:CHAN\$1:SCAL %(A)G V\n:CHAN\$1:OFFS %(B)G V";
+}
+
+setup_tim {
+    out ":TIM:SCAL %(A)G\n:TIM:POS %(B)G";
 }
 
 setup_other {
-    out ":TIM:SCAL 100E-9\n:TIM:POS 0\n:TRIG:SWE NORM\n:TRIG:SOUR EXT\n:WAV:FORM WORD\n:WAV:POIN 1000";
+    out ":TRIG:SWE NORM\n:TRIG:SOUR EXT\n:WAV:FORM ASC\n:WAV:POIN 1000";
 }
 
-wavpre_out {
+wavpre {
     out ":WAV:PRE?";
+    in "%[^\r\n]";
 }
 
 xinc_in {
@@ -37,10 +42,19 @@ yorig_in {
     in "%*f,%*f,%*f,%*f,%*f,%*f,%*f,%*f,%f,%*f";
 }
 
-wavdata {
+wavdata_bin {
     out ":WAV:DATA?";
     separator = "";
     in "#8%*8[0-9]%02r";
+    ExtraInput = Ignore;
+    ReplyTimeout = 10000;
+    ReadTimeout = 10000;
+}
+
+wavdata {
+    out ":WAV:DATA?";
+    separator = ",";
+    in "#8%*8[0-9]%f";
     ExtraInput = Ignore;
     ReplyTimeout = 10000;
     ReadTimeout = 10000;

@@ -2,6 +2,10 @@
 # Simple database and stream protocol file for Keysight DSOX2024A Oscilloscope
 #
 
+#
+# Basic operations
+#
+
 record(stringin, "$(P):$(R):IDN")
 {
     field(DESC, "identification string")
@@ -26,6 +30,10 @@ record(bo, "$(P):$(R):CLS")
     field(OUT,  "@devFC.proto cmd(*CLS) $(PORT) $(A)")
 }
 
+#
+# Device setup
+#
+
 record(seq, "$(P):$(R):STARTUP")
 {
     field(SCAN, "Passive")
@@ -35,54 +43,61 @@ record(seq, "$(P):$(R):STARTUP")
     field(LNK3, "$(P):$(R):SETUP_CHAN:2 PP")
     field(LNK4, "$(P):$(R):SETUP_CHAN:3 PP")
     field(LNK5, "$(P):$(R):SETUP_CHAN:4 PP")
-    field(LNK6, "$(P):$(R):SETUP_OTHER PP")
-    field(LNK7, "$(P):$(R):IDN PP")
-    field(LNK8, "$(P):$(R):RUN PP")
+    field(LNK6, "$(P):$(R):SETUP_TIM PP")
+    field(LNK7, "$(P):$(R):SETUP_OTHER PP")
+    field(LNK8, "$(P):$(R):IDN PP")
+    field(LNK9, "$(P):$(R):RUN PP")
     field(PINI, "YES")
 }
 
-record(seq, "$(P):$(R):SETUP")
-{
-    field(SCAN, "Passive")
-    field(SELM, "All")
-    field(LNK1, "$(P):$(R):RST PP")
-    field(LNK2, "$(P):$(R):SETUP_CHAN:1 PP")
-    field(LNK3, "$(P):$(R):SETUP_CHAN:2 PP")
-    field(LNK4, "$(P):$(R):SETUP_CHAN:3 PP")
-    field(LNK5, "$(P):$(R):SETUP_CHAN:4 PP")
-    field(LNK6, "$(P):$(R):SETUP_OTHER PP")
-}
-
-record(bo, "$(P):$(R):SETUP_CHAN:1")
+record(calcout, "$(P):$(R):SETUP_CHAN:1")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto setup_chan(1) $(PORT) $(A)")
-    field(SCAN, "Passive")
+    field(INPA, "$(P):$(R):SCAL:1")
+    field(INPB, "$(P):$(R):OFFS:1")
+    field(CALC, "0")
+    field(OUT, "@devFC.proto setup_chan(1) $(PORT) $(A)")
 }
 
-record(bo, "$(P):$(R):SETUP_CHAN:2")
+record(calcout, "$(P):$(R):SETUP_CHAN:2")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto setup_chan(2) $(PORT) $(A)")
-    field(SCAN, "Passive")
+    field(INPA, "$(P):$(R):SCAL:2")
+    field(INPB, "$(P):$(R):OFFS:2")
+    field(CALC, "0")
+    field(OUT, "@devFC.proto setup_chan(2) $(PORT) $(A)")
 }
 
-record(bo, "$(P):$(R):SETUP_CHAN:3")
+record(calcout, "$(P):$(R):SETUP_CHAN:3")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto setup_chan(3) $(PORT) $(A)")
-    field(SCAN, "Passive")
+    field(INPA, "$(P):$(R):SCAL:3")
+    field(INPB, "$(P):$(R):OFFS:3")
+    field(CALC, "0")
+    field(OUT, "@devFC.proto setup_chan(3) $(PORT) $(A)")
 }
 
-record(bo, "$(P):$(R):SETUP_CHAN:4")
+record(calcout, "$(P):$(R):SETUP_CHAN:4")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto setup_chan(4) $(PORT) $(A)")
+    field(INPA, "$(P):$(R):SCAL:4")
+    field(INPB, "$(P):$(R):OFFS:4")
+    field(CALC, "0")
+    field(OUT, "@devFC.proto setup_chan(4) $(PORT) $(A)")
+}
+
+record(calcout, "$(P):$(R):SETUP_TIM")
+{
     field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(INPA, "$(P):$(R):TIMSCAL")
+    field(INPB, "$(P):$(R):TIMPOS")
+    field(CALC, "0")
+    field(OUT, "@devFC.proto setup_tim() $(PORT) $(A)")
 }
 
 record(bo, "$(P):$(R):SETUP_OTHER")
@@ -91,6 +106,84 @@ record(bo, "$(P):$(R):SETUP_OTHER")
     field(DTYP, "stream")
     field(OUT,  "@devFC.proto setup_other() $(PORT) $(A)")
 }
+
+#
+# Set/get measure parameters
+#
+
+record(ao, "$(P):$(R):SCAL:1")
+{
+    field(SCAN, "Passive")
+    field(VAL,  "1.0")
+    field(FLNK, "$(P):$(R):SETUP_CHAN:1")
+}
+
+record(ao, "$(P):$(R):OFFS:1")
+{
+    field(SCAN, "Passive")
+    field(VAL,  "0.0")
+    field(FLNK, "$(P):$(R):SETUP_CHAN:1")
+}
+
+record(ao, "$(P):$(R):SCAL:2")
+{
+    field(SCAN, "Passive")
+    field(VAL,  "1.0")
+    field(FLNK, "$(P):$(R):SETUP_CHAN:2")
+}
+
+record(ao, "$(P):$(R):OFFS:2")
+{
+    field(SCAN, "Passive")
+    field(VAL,  "0.0")
+    field(FLNK, "$(P):$(R):SETUP_CHAN:2")
+}
+
+record(ao, "$(P):$(R):SCAL:3")
+{
+    field(SCAN, "Passive")
+    field(VAL,  "1.0")
+    field(FLNK, "$(P):$(R):SETUP_CHAN:3")
+}
+
+record(ao, "$(P):$(R):OFFS:3")
+{
+    field(SCAN, "Passive")
+    field(VAL,  "0.0")
+    field(FLNK, "$(P):$(R):SETUP_CHAN:3")
+}
+
+record(ao, "$(P):$(R):SCAL:4")
+{
+    field(SCAN, "Passive")
+    field(VAL,  "1.0")
+    field(FLNK, "$(P):$(R):SETUP_CHAN:4")
+}
+
+record(ao, "$(P):$(R):OFFS:4")
+{
+    field(SCAN, "Passive")
+    field(VAL,  "0.0")
+    field(FLNK, "$(P):$(R):SETUP_CHAN:4")
+}
+
+record(ao, "$(P):$(R):TIMSCAL")
+{
+    field(SCAN, "Passive")
+    field(VAL,  "1e-6")
+    field(FLNK, "$(P):$(R):SETUP_TIM")
+}
+
+record(ao, "$(P):$(R):TIMPOS")
+{
+    field(SCAN, "Passive")
+    field(VAL,  "0.0")
+    field(FLNK, "$(P):$(R):SETUP_TIM")
+}
+
+#
+# Run measure process
+#
 
 record(seq, "$(P):$(R):RUN")
 {
@@ -170,7 +263,6 @@ record(calcout, "$(P):$(R):READY")
     field(INPA, "$(P):$(R):CHAN_TRIG")
     field(CALC, "A = 1")
     field(OUT,  "$(P):$(R):FETCH:1 PP")
-    field(OOPT, "Always")
     field(DOPT, "Use CALC")
     field(OEVT, "1")
 }
@@ -181,7 +273,8 @@ record(seq, "$(P):$(R):FETCH:1")
     field(SELM, "All")
     field(LNK1, "$(P):$(R):WAVSOUR:1 PP")
     field(LNK2, "$(P):$(R):WAVDATA:1 PP")
-    field(LNK3, "$(P):$(R):FETCH:2 PP")
+    field(LNK3, "$(P):$(R):WAVPRE:1 PP")
+    field(LNK4, "$(P):$(R):FETCH:2 PP")
 }
 
 record(seq, "$(P):$(R):FETCH:2")
@@ -190,7 +283,8 @@ record(seq, "$(P):$(R):FETCH:2")
     field(SELM, "All")
     field(LNK1, "$(P):$(R):WAVSOUR:2 PP")
     field(LNK2, "$(P):$(R):WAVDATA:2 PP")
-    field(LNK3, "$(P):$(R):FETCH:3 PP")
+    field(LNK3, "$(P):$(R):WAVPRE:2 PP")
+    field(LNK4, "$(P):$(R):FETCH:3 PP")
 }
 
 record(seq, "$(P):$(R):FETCH:3")
@@ -199,7 +293,8 @@ record(seq, "$(P):$(R):FETCH:3")
     field(SELM, "All")
     field(LNK1, "$(P):$(R):WAVSOUR:3 PP")
     field(LNK2, "$(P):$(R):WAVDATA:3 PP")
-    field(LNK3, "$(P):$(R):FETCH:4 PP")
+    field(LNK3, "$(P):$(R):WAVPRE:3 PP")
+    field(LNK4, "$(P):$(R):FETCH:4 PP")
 }
 
 record(seq, "$(P):$(R):FETCH:4")
@@ -208,11 +303,12 @@ record(seq, "$(P):$(R):FETCH:4")
     field(SELM, "All")
     field(LNK1, "$(P):$(R):WAVSOUR:4 PP")
     field(LNK2, "$(P):$(R):WAVDATA:4 PP")
-    field(LNK3, "$(P):$(R):RUN PP")
+    field(LNK3, "$(P):$(R):WAVPRE:4 PP")
+    field(LNK4, "$(P):$(R):RUN PP")
 }
 
 #
-# Read waveforms
+# Read waveform data
 #
 
 record(waveform, "$(P):$(R):WAVDATA:1")
@@ -251,3 +347,63 @@ record(waveform, "$(P):$(R):WAVDATA:4")
     field(NELM, "1000")
     field(FTVL, "DOUBLE")
 }
+
+#
+# Read waveform parameters
+#
+
+record(stringin, "$(P):$(R):WAVPRE:1")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavpre() $(PORT) $(A)")
+}
+
+record(stringin, "$(P):$(R):WAVPRE:2")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavpre() $(PORT) $(A)")
+}
+
+record(stringin, "$(P):$(R):WAVPRE:3")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavpre() $(PORT) $(A)")
+}
+
+record(stringin, "$(P):$(R):WAVPRE:4")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavpre() $(PORT) $(A)")
+}
+
+#record(ai, "$(P):$(R):XINC")
+#{
+#    field(SCAN, "I/O Intr")
+#    field(DTYP, "stream")
+#    field(INP,  "@devFC.proto xinc_in() $(PORT) $(A)")
+#}
+
+#record(ai, "$(P):$(R):XORIG")
+#{
+#    field(SCAN, "I/O Intr")
+#    field(DTYP, "stream")
+#    field(INP,  "@devFC.proto xorig_in() $(PORT) $(A)")
+#}
+
+#record(ai, "$(P):$(R):YINC")
+#{
+#    field(SCAN, "I/O Intr")
+#    field(DTYP, "stream")
+#    field(INP,  "@devFC.proto yinc_in() $(PORT) $(A)")
+#}
+
+#record(ai, "$(P):$(R):YORIG")
+#{
+#    field(SCAN, "I/O Intr")
+#    field(DTYP, "stream")
+#    field(INP,  "@devFC.proto yorig_in() $(PORT) $(A)")
+#}
