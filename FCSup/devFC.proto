@@ -10,7 +10,7 @@ getIDN {
 }
 
 setup_chan {
-    out ":CHAN%d:DISP 1\n:CHAN%d:SCAL 1 V\n:CHAN%d:OFFS 0 V";
+    out ":CHAN\$1:DISP 1\n:CHAN\$1:SCAL 1 V\n:CHAN\$1:OFFS 0 V";
 }
 
 setup_other {
@@ -47,13 +47,13 @@ wavdata {
 }
 
 wavsour {
-    out ":WAV:SOUR CHAN%d";
+    out ":WAV:SOUR CHAN\$1";
 }
 
-wavsour_out {
+trig_wait {
     out ":WAV:SOUR?";
 }
 
-wavsour_in {
+chan_trig {
     in "CHAN%d";
 }

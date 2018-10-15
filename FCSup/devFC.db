@@ -5,6 +5,7 @@
 record(stringin, "$(P):$(R):IDN")
 {
     field(DESC, "identification string")
+    field(SCAN, "Passive")
     field(DTYP, "stream")
     field(INP,  "@devFC.proto getIDN() $(PORT) $(A)")
 }
@@ -12,6 +13,7 @@ record(stringin, "$(P):$(R):IDN")
 record(bo, "$(P):$(R):RST")
 {
     field(DESC, "reset")
+    field(SCAN, "Passive")
     field(DTYP, "stream")
     field(OUT,  "@devFC.proto cmd(*RST) $(PORT) $(A)")
 }
@@ -19,168 +21,153 @@ record(bo, "$(P):$(R):RST")
 record(bo, "$(P):$(R):CLS")
 {
     field(DESC, "clear status")
+    field(SCAN, "Passive")
     field(DTYP, "stream")
     field(OUT,  "@devFC.proto cmd(*CLS) $(PORT) $(A)")
 }
 
 record(seq, "$(P):$(R):STARTUP")
 {
-    field(DESC, "startup")
+    field(SCAN, "Passive")
     field(SELM, "All")
-    field(LNK1, "$(P):$(R):SETUP PP")
-    field(LNK2, "$(P):$(R):IDN PP")
-    field(LNK3, "$(P):$(R):RUN PP")
+    field(LNK1, "$(P):$(R):RST PP")
+    field(LNK2, "$(P):$(R):SETUP_CHAN:1 PP")
+    field(LNK3, "$(P):$(R):SETUP_CHAN:2 PP")
+    field(LNK4, "$(P):$(R):SETUP_CHAN:3 PP")
+    field(LNK5, "$(P):$(R):SETUP_CHAN:4 PP")
+    field(LNK6, "$(P):$(R):SETUP_OTHER PP")
+    field(LNK7, "$(P):$(R):IDN PP")
+    field(LNK8, "$(P):$(R):RUN PP")
     field(PINI, "YES")
 }
 
 record(seq, "$(P):$(R):SETUP")
 {
-    field(DESC, "startup")
+    field(SCAN, "Passive")
     field(SELM, "All")
     field(LNK1, "$(P):$(R):RST PP")
-    field(LNK2, "$(P):$(R):SETUP_CHAN PP")
-    field(DO2, "1")
-    field(LNK3, "$(P):$(R):SETUP_CHAN PP")
-    field(DO3, "2")
-    field(LNK4, "$(P):$(R):SETUP_CHAN PP")
-    field(DO4, "3")
-    field(LNK5, "$(P):$(R):SETUP_CHAN PP")
-    field(DO5, "4")
+    field(LNK2, "$(P):$(R):SETUP_CHAN:1 PP")
+    field(LNK3, "$(P):$(R):SETUP_CHAN:2 PP")
+    field(LNK4, "$(P):$(R):SETUP_CHAN:3 PP")
+    field(LNK5, "$(P):$(R):SETUP_CHAN:4 PP")
     field(LNK6, "$(P):$(R):SETUP_OTHER PP")
 }
 
-record(longout, "$(P):$(R):SETUP_CHAN")
+record(bo, "$(P):$(R):SETUP_CHAN:1")
 {
-    field(DESC, "setup")
+    field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto setup_chan() $(PORT) $(A)")
+    field(OUT,  "@devFC.proto setup_chan(1) $(PORT) $(A)")
+    field(SCAN, "Passive")
+}
+
+record(bo, "$(P):$(R):SETUP_CHAN:2")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto setup_chan(2) $(PORT) $(A)")
+    field(SCAN, "Passive")
+}
+
+record(bo, "$(P):$(R):SETUP_CHAN:3")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto setup_chan(3) $(PORT) $(A)")
+    field(SCAN, "Passive")
+}
+
+record(bo, "$(P):$(R):SETUP_CHAN:4")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto setup_chan(4) $(PORT) $(A)")
+    field(SCAN, "Passive")
 }
 
 record(bo, "$(P):$(R):SETUP_OTHER")
 {
-    field(DESC, "setup")
+    field(SCAN, "Passive")
     field(DTYP, "stream")
     field(OUT,  "@devFC.proto setup_other() $(PORT) $(A)")
 }
 
 record(seq, "$(P):$(R):RUN")
 {
+    field(SCAN, "Passive")
     field(SELM, "All")
     field(LNK1, "$(P):$(R):DIG PP")
-    field(LNK2, "$(P):$(R):WAVSOUR PP")
-    field(LNK3, "$(P):$(R):WAVSOUR_OUT PP")
-    field(DO2, "1")
+    field(LNK2, "$(P):$(R):WAVSOUR:1 PP")
+    field(DOL2, "1")
+    field(LNK3, "$(P):$(R):TRIG_WAIT PP")
 }
 
 record(bo, "$(P):$(R):DIG")
 {
+    field(SCAN, "Passive")
     field(DTYP, "stream")
     field(OUT,  "@devFC.proto cmd(:DIG) $(PORT) $(A)")
-}
-
-#
-# Read waveform parameters
-#
-
-record(ai, "$(P):$(R):XINC")
-{
-    field(DTYP, "stream")
-    field(INP,  "@devFC.proto xinc_in() $(PORT) $(A)")
-    field(SCAN, "I/O Intr")
-}
-
-record(ai, "$(P):$(R):XORIG")
-{
-    field(DTYP, "stream")
-    field(INP,  "@devFC.proto xorig_in() $(PORT) $(A)")
-    field(SCAN, "I/O Intr")
-}
-
-record(ai, "$(P):$(R):YINC")
-{
-    field(DTYP, "stream")
-    field(INP,  "@devFC.proto yinc_in() $(PORT) $(A)")
-    field(SCAN, "I/O Intr")
-}
-
-record(ai, "$(P):$(R):YORIG")
-{
-    field(DTYP, "stream")
-    field(INP,  "@devFC.proto yorig_in() $(PORT) $(A)")
-    field(SCAN, "I/O Intr")
-}
-
-#
-# Read waveforms
-#
-
-record(waveform, "$(P):$(R):WAVDATA:1")
-{
-    field(DESC, "waveform data")
-    field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
-    field(NELM, "1000")
-    field(FTVL, "DOUBLE")
-}
-
-record(waveform, "$(P):$(R):WAVDATA:2")
-{
-    field(DESC, "waveform data")
-    field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
-    field(NELM, "1000")
-    field(FTVL, "DOUBLE")
-}
-
-record(waveform, "$(P):$(R):WAVDATA:3")
-{
-    field(DESC, "waveform data")
-    field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
-    field(NELM, "1000")
-    field(FTVL, "DOUBLE")
-}
-
-record(waveform, "$(P):$(R):WAVDATA:4")
-{
-    field(DESC, "waveform data")
-    field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
-    field(NELM, "1000")
-    field(FTVL, "DOUBLE")
 }
 
 #
 # Set/get waveform source
 #
 
-record(longout, "$(P):$(R):WAVSOUR")
+record(longout, "$(P):$(R):WAVSOUR:1")
 {
+    field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto wavsour() $(PORT) $(A)")
+    field(OUT,  "@devFC.proto wavsour(1) $(PORT) $(A)")
 }
 
-record(longout, "$(P):$(R):WAVSOUR_OUT")
+record(longout, "$(P):$(R):WAVSOUR:2")
 {
+    field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto wavsour_out() $(PORT) $(A)")
+    field(OUT,  "@devFC.proto wavsour(2) $(PORT) $(A)")
 }
 
-record(longin, "$(P):$(R):WAVSOUR_IN")
+record(longout, "$(P):$(R):WAVSOUR:3")
 {
+    field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavsour_in() $(PORT) $(A)")
+    field(OUT,  "@devFC.proto wavsour(3) $(PORT) $(A)")
+}
+
+record(longout, "$(P):$(R):WAVSOUR:4")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto wavsour(4) $(PORT) $(A)")
+}
+
+#
+# Trigger event
+#
+
+record(bo, "$(P):$(R):TRIG_WAIT")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(OUT,  "@devFC.proto trig_wait() $(PORT) $(A)")
+}
+
+record(longin, "$(P):$(R):CHAN_TRIG")
+{
     field(SCAN, "I/O Intr")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto chan_trig() $(PORT) $(A)")
     field(FLNK, "$(P):$(R):READY")
 }
 
 #
-# Get data from all channels
+# Get data from channels
 #
 
 record(calcout, "$(P):$(R):READY")
 {
-    field(INPA, "$(P):$(R):WAVSOUR_IN")
+    field(SCAN, "Passive")
+    field(INPA, "$(P):$(R):CHAN_TRIG")
     field(CALC, "A = 1")
     field(OUT,  "$(P):$(R):FETCH:1 PP")
     field(OOPT, "Always")
@@ -190,40 +177,77 @@ record(calcout, "$(P):$(R):READY")
 
 record(seq, "$(P):$(R):FETCH:1")
 {
-    field(DESC, "read data and continue")
+    field(SCAN, "Passive")
     field(SELM, "All")
-    field(LNK1, "$(P):$(R):WAVSOUR PP")
-    field(DO1, "1")
+    field(LNK1, "$(P):$(R):WAVSOUR:1 PP")
     field(LNK2, "$(P):$(R):WAVDATA:1 PP")
     field(LNK3, "$(P):$(R):FETCH:2 PP")
 }
 
 record(seq, "$(P):$(R):FETCH:2")
 {
-    field(DESC, "read data and continue")
+    field(SCAN, "Passive")
     field(SELM, "All")
-    field(LNK1, "$(P):$(R):WAVSOUR PP")
-    field(DO1, "2")
+    field(LNK1, "$(P):$(R):WAVSOUR:2 PP")
     field(LNK2, "$(P):$(R):WAVDATA:2 PP")
     field(LNK3, "$(P):$(R):FETCH:3 PP")
 }
 
 record(seq, "$(P):$(R):FETCH:3")
 {
-    field(DESC, "read data and continue")
+    field(SCAN, "Passive")
     field(SELM, "All")
-    field(LNK1, "$(P):$(R):WAVSOUR PP")
-    field(DO1, "3")
+    field(LNK1, "$(P):$(R):WAVSOUR:3 PP")
     field(LNK2, "$(P):$(R):WAVDATA:3 PP")
     field(LNK3, "$(P):$(R):FETCH:4 PP")
 }
 
 record(seq, "$(P):$(R):FETCH:4")
 {
-    field(DESC, "read data and continue")
+    field(SCAN, "Passive")
     field(SELM, "All")
-    field(LNK1, "$(P):$(R):WAVSOUR PP")
-    field(DO1, "4")
-    field(LNK1, "$(P):$(R):WAVDATA:4 PP")
-    field(LNK2, "$(P):$(R):RUN PP")
+    field(LNK1, "$(P):$(R):WAVSOUR:4 PP")
+    field(LNK2, "$(P):$(R):WAVDATA:4 PP")
+    field(LNK3, "$(P):$(R):RUN PP")
+}
+
+#
+# Read waveforms
+#
+
+record(waveform, "$(P):$(R):WAVDATA:1")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(NELM, "1000")
+    field(FTVL, "DOUBLE")
+}
+
+
+record(waveform, "$(P):$(R):WAVDATA:2")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(NELM, "1000")
+    field(FTVL, "DOUBLE")
+}
+
+record(waveform, "$(P):$(R):WAVDATA:3")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(NELM, "1000")
+    field(FTVL, "DOUBLE")
+}
+
+record(waveform, "$(P):$(R):WAVDATA:4")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(NELM, "1000")
+    field(FTVL, "DOUBLE")
 }
