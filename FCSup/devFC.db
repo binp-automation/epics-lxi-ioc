@@ -380,19 +380,19 @@ record(stringin, "$(P):$(R):WAVPRE:4")
     field(INP,  "@devFC.proto wavpre() $(PORT) $(A)")
 }
 
-#record(ai, "$(P):$(R):XINC")
-#{
-#    field(SCAN, "I/O Intr")
-#    field(DTYP, "stream")
-#    field(INP,  "@devFC.proto xinc_in() $(PORT) $(A)")
-#}
+record(ai, "$(P):$(R):XINC")
+{
+    field(SCAN, "I/O Intr")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto xinc_in() $(PORT) $(A)")
+}
 
-#record(ai, "$(P):$(R):XORIG")
-#{
-#    field(SCAN, "I/O Intr")
-#    field(DTYP, "stream")
-#    field(INP,  "@devFC.proto xorig_in() $(PORT) $(A)")
-#}
+record(ai, "$(P):$(R):XORIG")
+{
+    field(SCAN, "I/O Intr")
+    field(DTYP, "stream")
+    field(INP,  "@devFC.proto xorig_in() $(PORT) $(A)")
+}
 
 #record(ai, "$(P):$(R):YINC")
 #{
