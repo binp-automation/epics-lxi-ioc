@@ -189,9 +189,8 @@ record(seq, "$(P):$(R):RUN")
 {
     field(SCAN, "Passive")
     field(SELM, "All")
-    field(LNK1, "$(P):$(R):DIG PP")
-    field(LNK2, "$(P):$(R):WAVSOUR:1 PP")
-    field(DOL2, "1")
+    field(LNK1, "$(P):$(R):WAVSOUR:1 PP")
+    field(LNK2, "$(P):$(R):DIG PP")
     field(LNK3, "$(P):$(R):TRIG_WAIT PP")
 }
 
@@ -199,35 +198,35 @@ record(bo, "$(P):$(R):DIG")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devScope.proto cmd(:DIG) $(PORT) $(A)")
+    field(OUT,  "@devScope.proto dig() $(PORT) $(A)")
 }
 
 #
 # Set/get waveform source
 #
 
-record(longout, "$(P):$(R):WAVSOUR:1")
+record(bo, "$(P):$(R):WAVSOUR:1")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
     field(OUT,  "@devScope.proto wavsour(1) $(PORT) $(A)")
 }
 
-record(longout, "$(P):$(R):WAVSOUR:2")
+record(bo, "$(P):$(R):WAVSOUR:2")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
     field(OUT,  "@devScope.proto wavsour(2) $(PORT) $(A)")
 }
 
-record(longout, "$(P):$(R):WAVSOUR:3")
+record(bo, "$(P):$(R):WAVSOUR:3")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
     field(OUT,  "@devScope.proto wavsour(3) $(PORT) $(A)")
 }
 
-record(longout, "$(P):$(R):WAVSOUR:4")
+record(bo, "$(P):$(R):WAVSOUR:4")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
@@ -271,7 +270,6 @@ record(seq, "$(P):$(R):FETCH:1")
 {
     field(SCAN, "Passive")
     field(SELM, "All")
-    field(LNK1, "$(P):$(R):WAVSOUR:1 PP")
     field(LNK2, "$(P):$(R):WAVDATA:1 PP")
     field(LNK3, "$(P):$(R):WAVPRE:1 PP")
     field(LNK4, "$(P):$(R):FETCH:2 PP")

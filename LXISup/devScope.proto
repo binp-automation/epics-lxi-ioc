@@ -21,25 +21,20 @@ setup_other {
     out ":TRIG:SWE NORM\n:TRIG:SOUR EXT\n:WAV:FORM ASC\n:WAV:POIN 1000";
 }
 
-wavpre {
-    out ":WAV:PRE?";
-    in "%[^\r\n]";
+wavsour {
+    out ":WAV:SOUR CHAN\$1";
 }
 
-xinc_in {
-    in "%*f,%*f,%*f,%*f,%f,%*f,%*f,%*f,%*f,%*f";
+dig {
+    out ":DIG CHAN1, CHAN2, CHAN3, CHAN4";
 }
 
-xorig_in {
-    in "%*f,%*f,%*f,%*f,%*f,%f,%*f,%*f,%*f,%*f";
+trig_wait {
+    out ":WAV:SOUR?";
 }
 
-yinc_in {
-    in "%*f,%*f,%*f,%*f,%*f,%*f,%*f,%f,%*f,%*f";
-}
-
-yorig_in {
-    in "%*f,%*f,%*f,%*f,%*f,%*f,%*f,%*f,%f,%*f";
+chan_trig {
+    in "CHAN%d";
 }
 
 wavdata_bin {
@@ -60,14 +55,23 @@ wavdata {
     ReadTimeout = 10000;
 }
 
-wavsour {
-    out ":WAV:SOUR CHAN\$1";
+wavpre {
+    out ":WAV:PRE?";
+    in "%[^\r\n]";
 }
 
-trig_wait {
-    out ":WAV:SOUR?";
+xinc_in {
+    in "%*f,%*f,%*f,%*f,%f,%*f,%*f,%*f,%*f,%*f";
 }
 
-chan_trig {
-    in "CHAN%d";
+xorig_in {
+    in "%*f,%*f,%*f,%*f,%*f,%f,%*f,%*f,%*f,%*f";
+}
+
+yinc_in {
+    in "%*f,%*f,%*f,%*f,%*f,%*f,%*f,%f,%*f,%*f";
+}
+
+yorig_in {
+    in "%*f,%*f,%*f,%*f,%*f,%*f,%*f,%*f,%f,%*f";
 }
