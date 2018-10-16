@@ -1,0 +1,35 @@
+cmd {
+    out "\$1";
+}
+
+setD {
+    out "\$1 %d";
+}
+getD {
+    out "\$1?";
+    in "%d";
+    ExtraInput = Ignore;
+    ReplyTimeout = 10000;
+}
+
+setF {
+    out "\$1 %f";
+}
+
+getF {
+    out "\$1?";
+    in "%f";
+    ExtraInput = Ignore;
+    ReplyTimeout = 10000;
+}
+
+getIDN {
+    out "*IDN?";
+    in "%\$1[^\r\n]";
+    ExtraInput = Ignore;
+    ReplyTimeout = 10000;
+}
+
+setup {
+    out "*RST\nCONF:FREQ\nTRIG:SOUR IMM\nTRIG:COUN MAX\nSAMP:COUN MAX\nFREQ:GATE:TIME 1.0\nINIT";
+}

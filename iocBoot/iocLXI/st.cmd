@@ -1,4 +1,4 @@
-#!../../bin/linux-x86_64/FC
+#!../../bin/linux-x86_64/LXI
 
 ############################################################################### 
 # Set up environment 
@@ -7,27 +7,36 @@ epicsEnvSet "STREAM_PROTOCOL_PATH" "$(TOP)/db"
 
 ###############################################################################
 # Allow PV name prefixes and serial port name to be set from the environment
-epicsEnvSet "P" "$(P=TEST)"
-epicsEnvSet "R" "$(R=FC)"
+epicsEnvSet "P" "$(P=VEPP4)"
+epicsEnvSet "RF" "$(R=FC)"
+epicsEnvSet "RS" "$(R=SCOPE)"
 
 ###############################################################################
-## Register all support components
+# Register all support components
 cd "${TOP}"
-dbLoadDatabase "dbd/FC.dbd"
-FC_registerRecordDeviceDriver pdbbase
+dbLoadDatabase "dbd/LXI.dbd"
+LXI_registerRecordDeviceDriver pdbbase
 
 ###############################################################################
+
 # Set up ASYN ports
-drvAsynIPPortConfigure("L0","10.0.0.12:5025",0,0,0) 
-#vxi11Configure("L0","10.0.0.12",0,0.0,"inst0",0,0) 
-asynOctetSetInputEos("L0", -1, "\n") 
-asynOctetSetOutputEos("L0", -1, "\n") 
-asynSetTraceIOMask("L0",-1,0x2) 
-asynSetTraceMask("L0",-1,0x9) 
+
+drvAsynIPPortConfigure("L0","10.0.0.11:5025",0,0,0)
+asynOctetSetInputEos("L0", -1, "\n")
+asynOctetSetOutputEos("L0", -1, "\n")
+asynSetTraceIOMask("L0",-1,0x2)
+asynSetTraceMask("L0",-1,0x9)
+
+drvAsynIPPortConfigure("L1","10.0.0.12:5025",0,0,0)
+asynOctetSetInputEos("L1", -1, "\n")
+asynOctetSetOutputEos("L1", -1, "\n")
+asynSetTraceIOMask("L1",-1,0x2)
+asynSetTraceMask("L1",-1,0x9)
 
 ###############################################################################
 ## Load record instances
-dbLoadRecords("db/devFC.db","P=$(P),R=$(R),PORT=L0,A=0")
+dbLoadRecords("db/devFC.db","P=$(P),R=$(RF),PORT=L0,A=0")
+dbLoadRecords("db/devScope.db","P=$(P),R=$(RS),PORT=L1,A=0")
 
 ############################################################################### 
 ## Start EPICS

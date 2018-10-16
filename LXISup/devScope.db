@@ -11,7 +11,7 @@ record(stringin, "$(P):$(R):IDN")
     field(DESC, "identification string")
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto getIDN() $(PORT) $(A)")
+    field(INP,  "@devScope.proto getIDN() $(PORT) $(A)")
 }
 
 record(bo, "$(P):$(R):RST")
@@ -19,7 +19,7 @@ record(bo, "$(P):$(R):RST")
     field(DESC, "reset")
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto cmd(*RST) $(PORT) $(A)")
+    field(OUT,  "@devScope.proto cmd(*RST) $(PORT) $(A)")
 }
 
 record(bo, "$(P):$(R):CLS")
@@ -27,14 +27,14 @@ record(bo, "$(P):$(R):CLS")
     field(DESC, "clear status")
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto cmd(*CLS) $(PORT) $(A)")
+    field(OUT,  "@devScope.proto cmd(*CLS) $(PORT) $(A)")
 }
 
 #
 # Device setup
 #
 
-record(seq, "$(P):$(R):STARTUP")
+record(seq, "$(P):$(R):SETUP")
 {
     field(SCAN, "Passive")
     field(SELM, "All")
@@ -57,7 +57,7 @@ record(calcout, "$(P):$(R):SETUP_CHAN:1")
     field(INPA, "$(P):$(R):SCAL:1")
     field(INPB, "$(P):$(R):OFFS:1")
     field(CALC, "0")
-    field(OUT, "@devFC.proto setup_chan(1) $(PORT) $(A)")
+    field(OUT, "@devScope.proto setup_chan(1) $(PORT) $(A)")
 }
 
 record(calcout, "$(P):$(R):SETUP_CHAN:2")
@@ -67,7 +67,7 @@ record(calcout, "$(P):$(R):SETUP_CHAN:2")
     field(INPA, "$(P):$(R):SCAL:2")
     field(INPB, "$(P):$(R):OFFS:2")
     field(CALC, "0")
-    field(OUT, "@devFC.proto setup_chan(2) $(PORT) $(A)")
+    field(OUT, "@devScope.proto setup_chan(2) $(PORT) $(A)")
 }
 
 record(calcout, "$(P):$(R):SETUP_CHAN:3")
@@ -77,7 +77,7 @@ record(calcout, "$(P):$(R):SETUP_CHAN:3")
     field(INPA, "$(P):$(R):SCAL:3")
     field(INPB, "$(P):$(R):OFFS:3")
     field(CALC, "0")
-    field(OUT, "@devFC.proto setup_chan(3) $(PORT) $(A)")
+    field(OUT, "@devScope.proto setup_chan(3) $(PORT) $(A)")
 }
 
 record(calcout, "$(P):$(R):SETUP_CHAN:4")
@@ -87,7 +87,7 @@ record(calcout, "$(P):$(R):SETUP_CHAN:4")
     field(INPA, "$(P):$(R):SCAL:4")
     field(INPB, "$(P):$(R):OFFS:4")
     field(CALC, "0")
-    field(OUT, "@devFC.proto setup_chan(4) $(PORT) $(A)")
+    field(OUT, "@devScope.proto setup_chan(4) $(PORT) $(A)")
 }
 
 record(calcout, "$(P):$(R):SETUP_TIM")
@@ -97,14 +97,14 @@ record(calcout, "$(P):$(R):SETUP_TIM")
     field(INPA, "$(P):$(R):TIMSCAL")
     field(INPB, "$(P):$(R):TIMPOS")
     field(CALC, "0")
-    field(OUT, "@devFC.proto setup_tim() $(PORT) $(A)")
+    field(OUT, "@devScope.proto setup_tim() $(PORT) $(A)")
 }
 
 record(bo, "$(P):$(R):SETUP_OTHER")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto setup_other() $(PORT) $(A)")
+    field(OUT,  "@devScope.proto setup_other() $(PORT) $(A)")
 }
 
 #
@@ -199,7 +199,7 @@ record(bo, "$(P):$(R):DIG")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto cmd(:DIG) $(PORT) $(A)")
+    field(OUT,  "@devScope.proto cmd(:DIG) $(PORT) $(A)")
 }
 
 #
@@ -210,28 +210,28 @@ record(longout, "$(P):$(R):WAVSOUR:1")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto wavsour(1) $(PORT) $(A)")
+    field(OUT,  "@devScope.proto wavsour(1) $(PORT) $(A)")
 }
 
 record(longout, "$(P):$(R):WAVSOUR:2")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto wavsour(2) $(PORT) $(A)")
+    field(OUT,  "@devScope.proto wavsour(2) $(PORT) $(A)")
 }
 
 record(longout, "$(P):$(R):WAVSOUR:3")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto wavsour(3) $(PORT) $(A)")
+    field(OUT,  "@devScope.proto wavsour(3) $(PORT) $(A)")
 }
 
 record(longout, "$(P):$(R):WAVSOUR:4")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto wavsour(4) $(PORT) $(A)")
+    field(OUT,  "@devScope.proto wavsour(4) $(PORT) $(A)")
 }
 
 #
@@ -242,14 +242,14 @@ record(bo, "$(P):$(R):TRIG_WAIT")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(OUT,  "@devFC.proto trig_wait() $(PORT) $(A)")
+    field(OUT,  "@devScope.proto trig_wait() $(PORT) $(A)")
 }
 
 record(longin, "$(P):$(R):CHAN_TRIG")
 {
     field(SCAN, "I/O Intr")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto chan_trig() $(PORT) $(A)")
+    field(INP,  "@devScope.proto chan_trig() $(PORT) $(A)")
     field(FLNK, "$(P):$(R):READY")
 }
 
@@ -315,7 +315,7 @@ record(waveform, "$(P):$(R):WAVDATA:1")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(INP,  "@devScope.proto wavdata() $(PORT) $(A)")
     field(NELM, "1000")
     field(FTVL, "DOUBLE")
 }
@@ -325,7 +325,7 @@ record(waveform, "$(P):$(R):WAVDATA:2")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(INP,  "@devScope.proto wavdata() $(PORT) $(A)")
     field(NELM, "1000")
     field(FTVL, "DOUBLE")
 }
@@ -334,7 +334,7 @@ record(waveform, "$(P):$(R):WAVDATA:3")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(INP,  "@devScope.proto wavdata() $(PORT) $(A)")
     field(NELM, "1000")
     field(FTVL, "DOUBLE")
 }
@@ -343,7 +343,7 @@ record(waveform, "$(P):$(R):WAVDATA:4")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavdata() $(PORT) $(A)")
+    field(INP,  "@devScope.proto wavdata() $(PORT) $(A)")
     field(NELM, "1000")
     field(FTVL, "DOUBLE")
 }
@@ -356,54 +356,54 @@ record(stringin, "$(P):$(R):WAVPRE:1")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavpre() $(PORT) $(A)")
+    field(INP,  "@devScope.proto wavpre() $(PORT) $(A)")
 }
 
 record(stringin, "$(P):$(R):WAVPRE:2")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavpre() $(PORT) $(A)")
+    field(INP,  "@devScope.proto wavpre() $(PORT) $(A)")
 }
 
 record(stringin, "$(P):$(R):WAVPRE:3")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavpre() $(PORT) $(A)")
+    field(INP,  "@devScope.proto wavpre() $(PORT) $(A)")
 }
 
 record(stringin, "$(P):$(R):WAVPRE:4")
 {
     field(SCAN, "Passive")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto wavpre() $(PORT) $(A)")
+    field(INP,  "@devScope.proto wavpre() $(PORT) $(A)")
 }
 
 record(ai, "$(P):$(R):XINC")
 {
     field(SCAN, "I/O Intr")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto xinc_in() $(PORT) $(A)")
+    field(INP,  "@devScope.proto xinc_in() $(PORT) $(A)")
 }
 
 record(ai, "$(P):$(R):XORIG")
 {
     field(SCAN, "I/O Intr")
     field(DTYP, "stream")
-    field(INP,  "@devFC.proto xorig_in() $(PORT) $(A)")
+    field(INP,  "@devScope.proto xorig_in() $(PORT) $(A)")
 }
 
 #record(ai, "$(P):$(R):YINC")
 #{
 #    field(SCAN, "I/O Intr")
 #    field(DTYP, "stream")
-#    field(INP,  "@devFC.proto yinc_in() $(PORT) $(A)")
+#    field(INP,  "@devScope.proto yinc_in() $(PORT) $(A)")
 #}
 
 #record(ai, "$(P):$(R):YORIG")
 #{
 #    field(SCAN, "I/O Intr")
 #    field(DTYP, "stream")
-#    field(INP,  "@devFC.proto yorig_in() $(PORT) $(A)")
+#    field(INP,  "@devScope.proto yorig_in() $(PORT) $(A)")
 #}

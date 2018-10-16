@@ -8,31 +8,31 @@ include $(TOP)/configure/CONFIG
 #=============================
 # Build the IOC application
 
-PROD_IOC = FC
-# FC.dbd will be created and installed
-DBD += FC.dbd
+PROD_IOC = LXI
+# LXI.dbd will be created and installed
+DBD += LXI.dbd
 
-# FC.dbd will be made up from these files:
-FC_DBD += base.dbd
+# LXI.dbd will be made up from these files:
+LXI_DBD += base.dbd
 
 # Include dbd files from all support applications:
-FC_DBD += asyn.dbd stream.dbd drvAsynIPPort.dbd drvVxi11.dbd
+LXI_DBD += asyn.dbd stream.dbd drvAsynIPPort.dbd drvVxi11.dbd
 
 # Add all the support libraries needed by this IOC
-FC_LIBS += stream asyn
+LXI_LIBS += stream asyn
 
-# FC_registerRecordDeviceDriver.cpp derives from FC.dbd
-FC_SRCS += FC_registerRecordDeviceDriver.cpp
+# LXI_registerRecordDeviceDriver.cpp derives from LXI.dbd
+LXI_SRCS += LXI_registerRecordDeviceDriver.cpp
 
 # Build the main IOC entry point on workstation OSs.
-FC_SRCS_DEFAULT += FCMain.cpp
-FC_SRCS_vxWorks += -nil-
+LXI_SRCS_DEFAULT += LXIMain.cpp
+LXI_SRCS_vxWorks += -nil-
 
 # Add support from base/src/vxWorks if needed
-#FC_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
+#LXI_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 
 # Finally link to the EPICS Base libraries
-FC_LIBS += $(EPICS_BASE_IOC_LIBS)
+LXI_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #===========================
 

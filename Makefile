@@ -1,4 +1,4 @@
-# Makefile for Asyn FC support
+# Makefile for Asyn LXI support
 #
 # Created by alex on Thu Jul 26 15:12:44 2018
 # Based on the Asyn streamSCPI template
