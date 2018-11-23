@@ -30,7 +30,7 @@
 #SNCSEQ = $(MODULES)/seq-ver
 
 # EPICS_BASE should appear last so earlier modules can override stuff:
-EPICS_BASE = /home/alex/devel/epics/base-3.15.5
+EPICS_BASE = /opt/epics/base
 
 # Set RULES here if you want to use build rules from somewhere
 # other than EPICS_BASE:
@@ -42,9 +42,9 @@ EPICS_BASE = /home/alex/devel/epics/base-3.15.5
 -include $(TOP)/configure/RELEASE.local
 
 # Asyn
-ASYN = /home/alex/devel/epics/asyn4-33
+ASYN = /opt/epics/asyn
 
 # StreamDevice
-STREAM = /home/alex/devel/epics/StreamDevice-2
+STREAM = /opt/epics/stream
 
 
