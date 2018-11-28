@@ -2,56 +2,63 @@
 # Simple database and stream protocol file for Keysight 53220A Frequency Counter
 #
 
-record(stringin, "$(P):$(R):IDN")
+record(stringin, "$(P)$(R)IDN")
 {
+    #field(TPRO, 1)
     field(DESC, "SCPI identification string")
     field(DTYP, "stream")
     field(INP,  "@devFC.proto getIDN(39) $(PORT) $(A)")
     field(PINI, "YES")
 }
 
-record(bo, "$(P):$(R):SETUP")
+record(bo, "$(P)$(R)SETUP")
 {
+    #field(TPRO, 1)
     field(DESC, "SCPI measure frequency")
     field(DTYP, "stream")
     field(OUT,  "@devFC.proto setup() $(PORT) $(A)")
     field(PINI, "YES")
 }
 
-record(ai, "$(P):$(R):FREQ")
+record(ai, "$(P)$(R)VAL")
 {
+    #field(TPRO, 1)
     field(DESC, "SCPI measure frequency")
     field(DTYP, "stream")
     field(INP,  "@devFC.proto getF(DATA:LAST) $(PORT) $(A)")
     field(SCAN, "1 second")
-    field(FLNK, "$(P):$(R):ERROR")
+    field(FLNK, "$(P)$(R)ERROR")
 }
 
-record(bo, "$(P):$(R):RST")
+record(bo, "$(P)$(R)RST")
 {
+    #field(TPRO, 1)
     field(DESC, "SCPI Reset")
     field(DTYP, "stream")
     field(OUT,  "@devFC.proto cmd(*RST) $(PORT) $(A)")
 }
 
-record(bo, "$(P):$(R):CLS")
+record(bo, "$(P)$(R)CLS")
 {
+    #field(TPRO, 1)
     field(DESC, "SCPI Clear status")
     field(DTYP, "stream")
     field(OUT,  "@devFC.proto cmd(*CLS) $(PORT) $(A)")
 }
 
-record(calc,"$(P):$(R):ERROR"){
-    field(INPA, "$(P):$(R):FREQ")
+record(calc,"$(P)$(R)ERROR"){
+    #field(TPRO, 1)
+    field(INPA, "$(P)$(R)VAL")
     field(CALC, "A > 9e37")
     field(VAL,  "1")
 }
 
-record(calcout,"$(P):$(R):WATCHDOG"){
+record(calcout,"$(P)$(R)WATCHDOG"){
+    #field(TPRO, 1)
     field(SCAN, "10 second")
-    field(INPA, "$(P):$(R):ERROR")
+    field(INPA, "$(P)$(R)ERROR")
     field(CALC, "A")
-    field(OUT,  "$(P):$(R):SETUP PP")
+    field(OUT,  "$(P)$(R)SETUP PP")
     field(OOPT, "When Non-zero")
     field(DOPT, "Use CALC")
     field(OEVT, "1")

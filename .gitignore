@@ -1,4 +1,10 @@
-bin
-db
-dbd
+bin/
+db/
+dbd/
+LXIApp/Db/O.linux-x86_64/
+LXIApp/src/O.Common/
+LXIApp/src/O.linux-x86_64/
+LXISup/O.linux-x86_64/
+configure/O.linux-x86_64/
+iocBoot/iocLXI/envPaths
 
