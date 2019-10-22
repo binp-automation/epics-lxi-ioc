@@ -25,7 +25,7 @@ cd epics-lxi-ioc/iocBoot/iocLXI/
 
 ### Epics setup
 
-+ Install **epics base**, **asyn driver** and **steam device** in `/opt/epics`
++ Install **epics base**, **asyn driver** and **stream device** in `/opt/epics`
 + Make in this directory symlinks to them named `base`, `asyn` and `stream` accordingly
 + Make `/opt/epics` readable by all (at least, by `v4-cs-worker`)
 
